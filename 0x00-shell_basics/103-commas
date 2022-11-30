@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -comma -a -r
+ls -mpa
