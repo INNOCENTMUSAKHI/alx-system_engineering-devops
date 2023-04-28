@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Uses until loop to print Holberton school 10 times
+# Uses until loop to print Best school 10 times
 x=0
 until [ $x -eq 10 ]
 do
-    echo "Holberton School"
+    echo "Best School"
     x=$(( x + 1 ))
 done
