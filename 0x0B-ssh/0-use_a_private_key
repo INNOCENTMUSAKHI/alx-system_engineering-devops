@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
-# this script connects to the server provided by alx
-
-ssh -i /alx-system_engineering-devops/0x0B-ssh/school ubuntu@54.159.200.139
+# Use ssh to connect to your server using private key
+ssh -i ~/.ssh/holberton ubuntu@100.25.29.104
