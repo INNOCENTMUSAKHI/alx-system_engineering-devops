@@ -1,12 +1,3 @@
 #!/usr/bin/env bash
-# this script connects to the server provided by alx
-
-<<<<<<< HEAD
-#<<<<<<< HEAD
-#ssh -i ~/.ssh/school ubuntu@100.25.29.104
-#=======
+# this script connects to the server p
 ssh -i ~/.ssh/school ubuntu@54.160.100.191
-#>>>>>>> 70abfa20095828a19c146c6856e14b8d4147732d
-=======
-ssh -i ~/.ssh/school ubuntu@54.160.100.191
->>>>>>> 32dd04a8c454a63f169ec322db7d02f4fe3809ff
