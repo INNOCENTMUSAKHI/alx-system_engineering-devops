@@ -1,48 +1,46 @@
 #!/usr/bin/python3
 '''
-    This module contains the function number_of_subscribers
+    this module contains the function number_of_subscribers
 '''
-import requests
-from sys import argv
 
+import requests
 
 def number_of_subscribers(subreddit):
-    '''
-    Returns the number of subscribers for a given subreddit.
+    """
+    Queries the Reddit API and returns the number of subscribers for a given subreddit.
 
     Args:
         subreddit (str): The name of the subreddit.
 
     Returns:
-        int: The number of subscribers for the subreddit, or 0 if the subreddit is invalid
-             or an error occurs.
+        int: The number of subscribers for the subreddit, or 0 if the subreddit is invalid.
+    """
+    url = f"https://www.reddit.com/r/{subreddit}/about.json"
+    headers = {"User-Agent": "reddit-subscriber-counter"}
 
-    Raises:
-        requests.exceptions.RequestException: If an error occurs while making the API request.
-        json.JSONDecodeError: If there is an error decoding the JSON response.
-    '''
-    user_agent = {'User-Agent': 'Reddit API Client by YourUsername'}
     try:
-        response = requests.get(f'https://www.reddit.com/r/{subreddit}/about.json', headers=user_agent)
+        response = requests.get(url, headers=headers)
         response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
+
         data = response.json()
-        return data.get('data', {}).get('subscribers', 0)
-    except requests.exceptions.RequestException as e:
-        print(f'Error making API request: {e}')
-        return 0
-    except json.JSONDecodeError as e:
-        print(f'Error decoding JSON response: {e}')
+        subscribers = data["data"]["subscribers"]
+        return subscribers
+    except requests.exceptions.HTTPError as e:
+        if response.status_code == 404:
+            print(f"Subreddit '{subreddit}' not found.")
+        else:
+            print(f"Error: {e}")
         return 0
     except KeyError:
-        print(f"Subreddit '{subreddit}' not found or blocked.")
+        print(f"Subreddit '{subreddit}' is invalid or private.")
         return 0
 
-
 if __name__ == "__main__":
-    if len(argv) < 2:
-        print("Usage: python3 <script.py> <subreddit>")
+    import sys
+
+    if len(sys.argv) < 2:
+        print("Please pass an argument for the subreddit to search.")
     else:
-        subreddit = argv[1]
-        subscribers = number_of_subscribers(subreddit)
-        print(f"The subreddit '{subreddit}' has {subscribers} subscribers.")
+        subreddit = sys.argv[1]
+        print(number_of_subscribers(subreddit))
 
