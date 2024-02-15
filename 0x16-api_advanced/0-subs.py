@@ -1,32 +1,26 @@
 #!/usr/bin/python3
-"""
-This module contains the function number_of_subscribers.
-"""
-
+'''
+    this module contains the function number_of_subscribers
+'''
 import requests
-import sys
+from sys import argv
+
 
 def number_of_subscribers(subreddit):
-    """
-    Returns the number of subscribers for a given subreddit.
-    """
-    user_agent = "MyBot/1.0"  # Set your own User-Agent here
-    headers = {"User-Agent": user_agent}
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
-
+    '''
+        returns the number of subscribers for a given subreddit
+    '''
+    user = {'User-Agent': 'Lizzie'}
+    url = requests.get('https://www.reddit.com/r/{}/about.json'.format(subreddit), headers=user).json()
     try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()  # Raise an error for 4xx or 5xx status codes
-        data = response.json()
-        return data["data"]["subscribers"]
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
+        return url.get('data').get('subscribers')
+    except Exception:
         return 0
 
+
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(argv) < 2:
         print("Please pass an argument for the subreddit to search.")
     else:
-        subreddit = sys.argv[1]
-        print(number_of_subscribers(subreddit))
+        print("Number of subscribers:", number_of_subscribers(argv[1]))
 
